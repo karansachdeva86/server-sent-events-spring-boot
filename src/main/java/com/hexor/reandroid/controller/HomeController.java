@@ -140,13 +140,6 @@ public class HomeController {
         return;
 
 
-//        SseEmitter sseEmitter = new SseEmitter();
-//
-//        long i=0;
-//
-//        applicationEventListener.addSseEmitters(i++, sseEmitter);
-//        return sseEmitter;
-
     }
 
 
