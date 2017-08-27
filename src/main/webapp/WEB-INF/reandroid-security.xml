@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xsi:schemaLocation="
+        http://www.springframework.org/schema/security 
+        http://www.springframework.org/schema/security/spring-security-3.2.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+    <beans:bean id="digestFilter"
+                class="org.springframework.security.web.authentication.www.DigestAuthenticationFilter">
+        <beans:property name="userDetailsService" ref="userDetailsService"/>
+        <beans:property name="authenticationEntryPoint" ref="digestEntryPoint"/>
+        <beans:property name="passwordAlreadyEncoded" value="true"/>
+        <beans:property name="createAuthenticatedToken" value="true"/>
+        <!--<beans:property name="userCache" ref="userCache"/>-->
+    </beans:bean>
+
+    <beans:bean id="digestEntryPoint"
+                class="com.hexor.reandroid.security.PlainTextDigestAuthenticationEntryPoint">
+        <beans:property name="realmName" value="SecurityRealm"/>
+        <beans:property name="key" value="Zaq1@wsx"/>
+        <beans:property name="nonceValiditySeconds" value="10"/>
+    </beans:bean>
+
+    <!--<beans:bean id="userCache"
+                class="org.springframework.security.core.userdetails.cache.EhCacheBasedUserCache">
+        <beans:property name="cache" ref="userEhCache" />
+    </beans:bean>
+    <beans:bean id="userEhCache"
+                class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <beans:property name="cacheManager" ref="cacheManager" />
+    </beans:bean>
+    <beans:bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <beans:property name="configLocation" value="classpath:ehcache.xml"/>
+        <beans:property name="shared" value="true"/>
+    </beans:bean> -->
+
+    <!-- Default configuration, nothing to specify while starting the server -->
+    <!-- Though -Dspring.profiles.active=default will also work -->
+    <!-- the security namespace configuration -->
+    <beans:beans profile="default">
+        <http use-expressions="true" entry-point-ref="digestEntryPoint">
+            <intercept-url pattern="/**" access="isAuthenticated()"/>
+
+            <custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER"/>
+        </http>
+
+        <authentication-manager>
+            <authentication-provider user-service-ref="userDetailsService">
+
+            </authentication-provider>
+        </authentication-manager>
+    </beans:beans>
+
+    <beans:beans>
+        <beans:bean id="userDetailsService" class="com.hexor.reandroid.security.CustomerDetailsServiceImpl"/>
+    </beans:beans>
+
+    <!-- To enable it start the server with option  -Dspring.profiles.active=bypass  -->
+    <!-- Recommended for dev purposes only -->
+    <beans:beans profile="bypass">
+        <beans:bean id="springSecurityFilterChain"
+                    class="com.hexor.reandroid.security.ByPassDigestFilterChain"/>
+    </beans:beans>
+
+</beans:beans>
