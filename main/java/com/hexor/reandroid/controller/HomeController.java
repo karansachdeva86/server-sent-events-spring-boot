@@ -64,7 +64,7 @@ public class HomeController {
     @RequestMapping("")
     public String home(ModelMap model){
 
-        logger.info("Homepage...");
+        logger.info("Homepage requested... ");
 
         model.addAttribute("date", (new Date()).toString());
 
@@ -140,13 +140,6 @@ public class HomeController {
         return;
 
 
-//        SseEmitter sseEmitter = new SseEmitter();
-//
-//        long i=0;
-//
-//        applicationEventListener.addSseEmitters(i++, sseEmitter);
-//        return sseEmitter;
-
     }
 
 
@@ -200,122 +193,9 @@ public class HomeController {
             }
 
 
-
-//            try {
-//                conn = dataSource.getConnection();
-//
-//                PreparedStatement stmt = conn.prepareStatement("SELECT status FROM incoming_request where id=?");
-//                stmt.setInt(1, requestId);
-//                ResultSet rs = stmt.executeQuery();
-//
-//                if (rs.next()) {
-//                    String status = rs.getString("status");
-//
-//                    logger.info("status:" + status);
-//
-//                    if ("PROCESSED".equals(rs.getString("status"))) {
-//                        logger.info("sending message to the browser11..");
-//                        emitter.send("APK Analysis is complete", MediaType.APPLICATION_JSON);
-//                        emitter.complete();
-//                    }else{
-//                    }
-//                }
-//
-//                rs.close();
-//                stmt.close();
-//                conn.close();
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
-            /*
-            for (int i = 0; i < 500; i++) {
-                try {
-                    if(i==10)
-                    emitter.send(LocalTime.now().toString() , MediaType.TEXT_PLAIN);
-
-                    Thread.sleep(200);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    emitter.completeWithError(e);
-                    return;
-                }
-            }
-
-
-            emitter.complete(); */
         });
 
         return emitter;
     }
-
-
-    @RequestMapping("/getRealTimeMessage.action")
-    public SseEmitter getRealTimeMessageAction(
-            HttpServletRequest request) throws IOException {
-        // You can send message here
-
-        //Submission submission = submissionService.getSubmission(submissionId);
-
-        //if ( submission == null ) {
-        //    throw new ResourceNotFoundException();
-        //}
-
-
-        SseEmitter sseEmitter = new SseEmitter();
-        applicationEventListener.addSseEmitters(1L, sseEmitter);
-        return sseEmitter;
-
-
-        //sseEmitter.send("Message #1");
-        //return sseEmitter;
-    }
-
-
-    @RequestMapping(value="/getRealTimeServerPushUserPosts")
-    public SseEmitter getRealTimeServerPushUserPosts(){
-
-        SseEmitter sseEmitter = new SseEmitter();
-        try {
-            sseEmitter.send("Message #1");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return sseEmitter;
-    }
-
-
-    @RequestMapping(path = "/stream", method = RequestMethod.GET)
-    public SseEmitter stream() throws IOException {
-
-        SseEmitter emitter = new SseEmitter();
-
-        emitters.add(emitter);
-
-
-        return emitter;
-    }
-
-//    @ResponseBody
-//    @RequestMapping(path = "/chat", method = RequestMethod.POST)
-//    public Message sendMessage(Message message) {
-//
-//
-//        for (SseEmitter emitter: emitters){
-//
-//            try {
-//                emitter.send(message, MediaType.APPLICATION_JSON);
-//            } catch (IOException e) {
-//                emitter.complete();
-//                emitters.remove(emitter);
-//                e.printStackTrace();
-//            }
-//        }
-//        return message;
-//    }
-
-
 
 }
