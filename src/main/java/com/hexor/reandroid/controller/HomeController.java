@@ -2,13 +2,14 @@ package com.hexor.reandroid.controller;
 
 import com.google.gson.Gson;
 import com.hexor.reandroid.mq.ApplicationEventListener;
+import com.hexor.reandroid.persistence.dao.IIncomingRequestDao;
 import com.hexor.reandroid.persistence.entity.IncomingRequest;
 import com.hexor.reandroid.persistence.service.IIncomingRequestService;
 import com.hexor.reandroid.persistence.service.JmsClient;
 import com.mysql.cj.jdbc.MysqlDataSource;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.FileUtils;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.apache.log4j.Logger;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -53,13 +54,16 @@ public class HomeController {
     private IIncomingRequestService incomingRequestService;
 
     @Autowired
-    private ApplicationEventListener applicationEventListener;
+    private IIncomingRequestDao incomingRequestDao;
 
 
     @Autowired JmsClient jmsClient;
 
     @Value("#{ systemProperties['file.upload.path'] }")
     private String uploadPath;
+
+    @Value("${application.message:test}")
+    private String message = "Hello World";
 
     @RequestMapping("")
     public String home(ModelMap model){
@@ -77,7 +81,7 @@ public class HomeController {
     @ResponseBody
     public void addFile(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
 
-        logger.info("File upload...");
+        logger.info("File upload request received..");
 
         if (!ServletFileUpload.isMultipartContent(request)) {
             throw new IllegalArgumentException("Request is not multipart, please 'multipart/form-data' enctype for your form.");
@@ -94,6 +98,9 @@ public class HomeController {
         //Persist The Request
 
         IncomingRequest incomingRequest = new IncomingRequest();
+
+
+        //Validate the request
 
         incomingRequest.setEmailId(dmhsRequest.getRequest().getParameter("emailId"));
         incomingRequest.setFileName(uploadPath + multipartFile.getOriginalFilename());

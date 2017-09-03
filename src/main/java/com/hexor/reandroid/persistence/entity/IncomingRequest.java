@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="incoming_request")
-public class IncomingRequest implements  java.io.Serializable{
+public class IncomingRequest {
 
     private int id;
     private String emailId;
@@ -20,8 +20,25 @@ public class IncomingRequest implements  java.io.Serializable{
     private String status;
 
 
+    public IncomingRequest(int id) {
+        this.id = id;
+    }
+
+    public IncomingRequest(int id, String emailId, Integer userId, boolean validFile, Date uploadDate, String fileName, String status) {
+        this.id = id;
+        this.emailId = emailId;
+        this.userId = userId;
+        this.validFile = validFile;
+        this.uploadDate = uploadDate;
+        this.fileName = fileName;
+        this.status = status;
+    }
+
+    public IncomingRequest() {
+    }
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id",unique = true)
     public int getId() {
         return id;

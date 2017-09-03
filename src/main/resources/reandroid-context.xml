@@ -3,7 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:amq="http://activemq.apache.org/schema/core"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:jms="http://www.springframework.org/schema/jms"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -12,8 +11,7 @@
        http://www.springframework.org/schema/mvc        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
        http://www.springframework.org/schema/context    http://www.springframework.org/schema/context/spring-context-3.2.xsd
        http://www.springframework.org/schema/tx         http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
-       http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.2.xsd
-       http://activemq.apache.org/schema/core  http://activemq.apache.org/schema/core/activemq-core.xsd">
+       http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.2.xsd">
 
     <context:component-scan base-package="com.hexor.reandroid"/>
 
@@ -22,7 +20,7 @@
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
         <property name="locations">
             <list>
-                <value>/WEB-INF/reandroid.properties</value>
+                <value>/reandroid.properties</value>
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true" />
@@ -31,14 +29,6 @@
 
     </bean>
 
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="ReAndroidPersistenceUnit"/>
-    </bean>
-
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
-
-    </bean>
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
         <property name="prefix" value="/WEB-INF/jsp/" />
@@ -56,30 +46,10 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
 
-    <amq:connectionFactory id="amqConnectionFactory" brokerURL="${jms.broker-url}" userName="${jms.user}" password="${jms.password}" />
     <!-- CachingConnectionFactory Definition, sessionCacheSize property is the number of sessions to cache -->
-    <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
-        <constructor-arg ref="amqConnectionFactory" />
-        <property name="exceptionListener" ref="jmsExceptionListener" />
-        <property name="sessionCacheSize" value="100" />
-    </bean>
-    <!-- JmsTemplate Definition -->
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <constructor-arg ref="connectionFactory"/>
-    </bean>
-
-    <!-- Message Receiver Definition -->
-    <bean id="messageReceiver" class="com.hexor.reandroid.mq.JmsConsumer">
-    </bean>
-
-    <bean class="org.springframework.jms.listener.SimpleMessageListenerContainer">
-        <property name="connectionFactory" ref="connectionFactory" />
-        <property name="destinationName" value="${jms.queue.processed}" />
-        <property name="messageListener" ref="messageReceiver" />
-    </bean>
 
 
 
 
-    <import resource="reandroid-security.xml"/>
+  <!--  <import resource="reandroid-security.xml"/>-->
 </beans>

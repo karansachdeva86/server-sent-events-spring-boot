@@ -16,7 +16,7 @@ public abstract class AbstractFacade<T> {
 
     @Autowired Dialect dialect;
 
-    @PersistenceContext(unitName = "ReAndroidPersistenceUnit")
+    @PersistenceContext(unitName = "default")
     private EntityManager entityManager;
 
     private Class<T> entityClass;

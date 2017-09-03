@@ -15,19 +15,34 @@ public class IncomingRequestServiceImpl  implements  IIncomingRequestService{
     @Autowired
     private IIncomingRequestDao incomingRequestDao;
 
-
-    @Override public IncomingRequest persistRequest(IncomingRequest incomingRequest) {
-        return incomingRequestDao.persistAndReturnEntity(incomingRequest);
+    @Override
+    public IncomingRequest persistRequest(IncomingRequest incomingRequest) {
+        return null;
     }
 
     @Override
     public IncomingRequest getIncomingRequestById(Integer requestId) {
-        return  incomingRequestDao.getIncomingRequestById(requestId);
+        return null;
     }
 
     @Override
     public void updateIncomingRequest(IncomingRequest incomingRequest) {
-         incomingRequestDao.updateIncomingRequest(incomingRequest);
+
     }
+
+//
+//    @Override public IncomingRequest persistRequest(IncomingRequest incomingRequest) {
+//        return incomingRequestDao.persistAndReturnEntity(incomingRequest);
+//    }
+//
+//    @Override
+//    public IncomingRequest getIncomingRequestById(Integer requestId) {
+//        return  incomingRequestDao.getIncomingRequestById(requestId);
+//    }
+//
+//    @Override
+//    public void updateIncomingRequest(IncomingRequest incomingRequest) {
+//         incomingRequestDao.updateIncomingRequest(incomingRequest);
+//    }
 
 }

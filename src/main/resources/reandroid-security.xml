@@ -10,7 +10,6 @@
 
     <beans:bean id="digestFilter"
                 class="org.springframework.security.web.authentication.www.DigestAuthenticationFilter">
-        <beans:property name="userDetailsService" ref="userDetailsService"/>
         <beans:property name="authenticationEntryPoint" ref="digestEntryPoint"/>
         <beans:property name="passwordAlreadyEncoded" value="true"/>
         <beans:property name="createAuthenticatedToken" value="true"/>
@@ -42,21 +41,15 @@
     <!-- the security namespace configuration -->
     <beans:beans profile="default">
         <http use-expressions="true" entry-point-ref="digestEntryPoint">
-            <intercept-url pattern="/**" access="isAuthenticated()"/>
+            <intercept-url pattern="/css" access="isAuthenticated()"/>
 
             <custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER"/>
         </http>
 
         <authentication-manager>
-            <authentication-provider user-service-ref="userDetailsService">
-
-            </authentication-provider>
         </authentication-manager>
     </beans:beans>
 
-    <beans:beans>
-        <beans:bean id="userDetailsService" class="com.hexor.reandroid.security.CustomerDetailsServiceImpl"/>
-    </beans:beans>
 
     <!-- To enable it start the server with option  -Dspring.profiles.active=bypass  -->
     <!-- Recommended for dev purposes only -->
