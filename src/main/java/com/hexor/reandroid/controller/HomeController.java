@@ -7,6 +7,7 @@ import com.hexor.reandroid.persistence.entity.IncomingRequest;
 import com.hexor.reandroid.persistence.service.IIncomingRequestService;
 import com.hexor.reandroid.persistence.service.JmsClient;
 import com.mysql.cj.jdbc.MysqlDataSource;
+import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.apache.log4j.Logger;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
@@ -59,7 +60,7 @@ public class HomeController {
 
     @Autowired JmsClient jmsClient;
 
-    @Value("#{ systemProperties['file.upload.path'] }")
+    @Value("${file.upload.path}")
     private String uploadPath;
 
     @Value("${application.message:test}")
@@ -87,7 +88,7 @@ public class HomeController {
             throw new IllegalArgumentException("Request is not multipart, please 'multipart/form-data' enctype for your form.");
         }
 
-        DefaultMultipartHttpServletRequest dmhsRequest = (DefaultMultipartHttpServletRequest) request;
+        StandardMultipartHttpServletRequest dmhsRequest = (StandardMultipartHttpServletRequest) request;
         MultipartFile multipartFile = (MultipartFile) dmhsRequest.getFile("file");
 
         File temp_file = new File(uploadPath + multipartFile.getOriginalFilename());
@@ -164,7 +165,7 @@ public class HomeController {
             dataSource.setDatabaseName("reandroid");
             Connection conn = null;
 
-            for (int i = 0; i < 500; i++) {
+            for (int i = 0; i < 100; i++) {
                 try {
                     Thread.sleep(2000);
                     conn = dataSource.getConnection();
@@ -198,6 +199,8 @@ public class HomeController {
             }
 
         });
+
+
 
         return emitter;
     }

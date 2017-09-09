@@ -21,7 +21,7 @@ public class PythonMockProducer {
 
     public void send(String msg){
 
-        LOG.info("uploading new APK request to the ["+processedQueue+"] queue....");
+        LOG.info("uploading new APK request to the ["+processedQueue+"] queue");
 
         jmsTemplate.convertAndSend(processedQueue, msg);
 

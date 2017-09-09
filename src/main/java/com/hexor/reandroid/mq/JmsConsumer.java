@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.annotation.JmsListeners;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 import org.apache.commons.logging.Log;
@@ -21,7 +23,8 @@ import javax.jms.*;
 @Component
 public class JmsConsumer implements MessageListener {
 
-    private static final Logger logger = Logger.getLogger(JmsConsumer.class);
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(JmsConsumer.class);
+
 
     @Autowired JmsTemplate jmsTemplate;
 
@@ -36,6 +39,7 @@ public class JmsConsumer implements MessageListener {
 
 
     public String receive(){
+        logger.info("inside receive");
         return (String)jmsTemplate.receiveAndConvert(processedQueue);
     }
 

@@ -3,6 +3,7 @@ package com.hexor.reandroid.mq;
 import com.hexor.reandroid.controller.HomeController;
 import org.apache.log4j.Logger;
 import org.springframework.context.event.EventListener;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -16,7 +17,7 @@ import java.util.Map;
 @Component
 public class ApplicationEventListener {
 
-    private static final Logger logger = Logger.getLogger(HomeController.class);
+    private static final Logger logger = Logger.getLogger(ApplicationEventListener.class);
 
     @EventListener
     public void submissionEventHandler(SubmissionEvent event) throws IOException {

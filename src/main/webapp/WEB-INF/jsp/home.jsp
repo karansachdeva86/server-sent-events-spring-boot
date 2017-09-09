@@ -75,7 +75,15 @@ function processUpload()
 
 function waitForResponseReady(idVal){
     if(typeof(EventSource) !== "undefined") {
-        var source = new EventSource("/reandroid/listen-for-response?id="+idVal);
+        var source = new EventSource("/listen-for-response?id="+idVal);
+        source.addEventListener('error', function(e) {
+            if (e.currentTarget.readyState == EventSource.CLOSED) {
+                // Connection was closed.
+            } else {
+                // Close it yourself
+                source.close();
+            }
+        });
         source.onmessage = function(event) {
            // document.getElementById("dynamic_text").innerHTML += event.data + " - ";
             $('#dynamic_text').text(event.data);

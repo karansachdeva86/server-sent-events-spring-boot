@@ -17,16 +17,17 @@ public class IncomingRequestServiceImpl  implements  IIncomingRequestService{
 
     @Override
     public IncomingRequest persistRequest(IncomingRequest incomingRequest) {
-        return null;
+        return incomingRequestDao.save(incomingRequest);
     }
 
     @Override
     public IncomingRequest getIncomingRequestById(Integer requestId) {
-        return null;
+        return incomingRequestDao.findOne(requestId);
     }
 
     @Override
     public void updateIncomingRequest(IncomingRequest incomingRequest) {
+        incomingRequestDao.save(incomingRequest);
 
     }
 
