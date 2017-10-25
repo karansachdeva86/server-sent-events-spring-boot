@@ -181,7 +181,7 @@ public class HomeController {
 
                         if ("PROCESSED".equals(rs.getString("status"))) {
                             logger.info("sending message to the browser11..");
-                            emitter.send("APK Analysis is complete", MediaType.APPLICATION_JSON);
+                            emitter.send("Backend processing is complete", MediaType.APPLICATION_JSON);
                             emitter.complete();
                         }else{
                         }

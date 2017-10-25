@@ -3,7 +3,7 @@
 <html lang="en" class=" js"><!-- Mirrored from gtmetrix.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Mar 2017 10:05:57 GMT --><!-- Added by HTTrack --><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!-- /Added by HTTrack -->
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>GTmetrix | Website Speed and Performance Optimization</title>
+  <title>Re-Android | Defences Analysis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <meta name="description" content="GTmetrix is a free tool that analyzes your page&#39;s speed performance.  Using PageSpeed and YSlow, GTmetrix generates scores for your pages and offers actionable recommendations on how to fix them.">
   <link rel="alternate" type="application/rss+xml" href="file:///Users/karan/websites/GTMatrix/gtmetrix.com/news.xml" title="Latest GTmetrix News">
@@ -111,9 +111,9 @@ function waitForResponseReady(idVal){
         <nav>
           <ul class="site-nav clear">
             <li class="site-nav-home"><a href="file:///Users/karan/websites/GTMatrix/gtmetrix.com/index.html"><i class="sprite-gtmetrix sprite-display-block"></i></a></li>
-            <li><a href="file:///Users/karan/websites/GTMatrix/gtmetrix.com/features.html">Features</a></li>
-            <li><a href="file:///Users/karan/websites/GTMatrix/gtmetrix.com/resources.html">Resources</a></li>
-            <li><a href="file:///Users/karan/websites/GTMatrix/gtmetrix.com/pro/index.html">GTmetrix PRO</a></li>
+            <li><a href="file:///Users/karan/websites/GTMatrix/gtmetrix.com/features.html">Menu</a></li>
+            <li><a href="file:///Users/karan/websites/GTMatrix/gtmetrix.com/resources.html">About</a></li>
+            <li><a href="file:///Users/karan/websites/GTMatrix/gtmetrix.com/pro/index.html">Contact</a></li>
           </ul>
         </nav>
         <ul class="user-nav clear">
@@ -128,8 +128,8 @@ function waitForResponseReady(idVal){
 <article>
   <section class="layout-zebra-section home-section-analyze">
     <div class="layout-zebra-section-content">
-      <h1>Analyze your APK for Defenses</h1>
-      <h2>GTmetrix gives you insight on how well your site loads and provides actionable recommendations on how to optimize it.</h2>
+      <h1>Demo for Server Sent Events</h1>
+      <h2>Upload a file below</h2>
 
       <p1 id="dynamic_text"></p1>
 <form method="POST" enctype="multipart/form-data" action="/reandroid/upload" class="analyze-form js-form-analyze" novalidate="novalidate">
