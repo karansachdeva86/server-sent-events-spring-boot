@@ -155,7 +155,7 @@ public class HomeController {
                                      @RequestParam(required = false, value = "id") Integer requestId) {
 
         logger.info("Server is attempting to check whether response is ready for request...." + requestId);
-        final SseEmitter emitter = new SseEmitter();
+        final SseEmitter emitter = new SseEmitter(180_000L);
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.execute(() -> {
 

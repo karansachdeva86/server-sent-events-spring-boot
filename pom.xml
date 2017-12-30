@@ -9,7 +9,7 @@
     </parent>
     <artifactId>spring-boot-sample-tomcat-jsp</artifactId>
     <packaging>war</packaging>
-    <name>Spring Boot Tomcat JSP Sample</name>
+    <name>Spring Boot Tomcat JSP</name>
     <description>Spring Boot Tomcat JSP Sample</description>
     <url>http://projects.spring.io/spring-boot/</url>
     <organization>
