@@ -22,7 +22,7 @@ public class IncomingRequestServiceImpl  implements  IIncomingRequestService{
 
     @Override
     public IncomingRequest getIncomingRequestById(Integer requestId) {
-        return incomingRequestDao.findOne(requestId);
+        return incomingRequestDao.findById(requestId).orElse(null);
     }
 
     @Override

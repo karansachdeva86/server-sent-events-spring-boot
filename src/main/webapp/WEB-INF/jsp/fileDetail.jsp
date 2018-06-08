@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en" class=" js">
 
@@ -18,77 +19,7 @@
   <script src="/static/r148/js/html5shiv.min.js"></script>
 <![endif]-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript">
-var files = [];
-$(document)
-        .on(
-                "change",
-                "#fileLoader",
-                function(event) {
-                 files=event.target.files;
-                })
 
-$(document)
-        .on(
-                "click",
-                "#fileSubmit",
-                function() {
-                processUpload();
-                })
-
-function processUpload()
-          {
-              var oMyForm = new FormData();
-              oMyForm.append("file", files[0]);
-             $
-                .ajax({dataType : 'json',
-                    url : "upload",
-                    data : oMyForm,
-                    type : "POST",
-                    enctype: 'multipart/form-data',
-                    processData: false,
-                    contentType:false,
-                    success : function(result) {
-                        //...;
-
-                        //alert(result);
-                        var response = $.parseJSON(JSON.stringify(result));
-                       // alert();
-
-
-                       $('#dynamic_text').text(response['msg']);
-                      //  document.getElementById("dynamic_text").innerHTML += response['msg'];
-                        waitForResponseReady(response['id']);
-                    },
-                    error : function(result){
-                        //...;
-                    }
-                });
-          }
-
-function waitForResponseReady(idVal){
-    if(typeof(EventSource) !== "undefined") {
-        var source = new EventSource("/listen-for-response?id="+idVal);
-        source.addEventListener('error', function(e) {
-            if (e.currentTarget.readyState == EventSource.CLOSED) {
-                // Connection was closed.
-            } else {
-                // Close it yourself
-                source.close();
-            }
-        });
-        source.onmessage = function(event) {
-           // document.getElementById("dynamic_text").innerHTML += event.data + " - ";
-            $('#dynamic_text').text(event.data);
-
-        };
-    } else {
-        document.getElementById("dynamic_text").innerHTML =
-            "Your browser does not support server-sent events.";
-    }
-}
-
-</script>
 </head>
 <body class="page-home">
   <div class="page-wrapper">
@@ -110,16 +41,15 @@ function waitForResponseReady(idVal){
       <h2>Upload a file below</h2>
 
       <p1 id="dynamic_text"></p1>
-<form method="POST" enctype="multipart/form-data" action="/reandroid/upload" class="analyze-form js-form-analyze" novalidate="novalidate">
+<form method="POST" enctype="multipart/form-data" action="#" class="analyze-form js-form-analyze" novalidate="novalidate">
   <div class="analyze-form-inputs">
     <div class="analyze-form-input"><div class="clearable-input">
-    <!--<input type="file" name="file" value="" class="js-aanalyze-form-url" placeholder="Select APK File..." maxlength="1048" autofocus="" required="" aria-required="true" style="padding-right: 42.4px;"><button class="clearable-input-button hide" type="button" tabindex="-1" style="line-height: 53px; width: 53px; font-size: 34.125px;"><span>×</span></button></div></div>-->
 
-    <input type="file" name="file" id="fileLoader" />
-    <input type="button" id="fileSubmit" value="Upload"/>
-
+      <c:out value="${fileMetaData}"></c:out>
 
     <!--<div class="analyze-form-button"><button type="button">Submit</button></div>-->
+  </div>
+    </div>
   </div>
 </form>
 </div>

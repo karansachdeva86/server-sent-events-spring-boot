@@ -30,6 +30,10 @@ import javax.servlet.http.HttpServletResponse;
 import  javax.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -159,37 +163,23 @@ public class HomeController {
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.execute(() -> {
 
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setUser("root");
-            dataSource.setServerName("localhost");
-            dataSource.setDatabaseName("reandroid");
-            Connection conn = null;
-
             for (int i = 0; i < 100; i++) {
                 try {
+
                     Thread.sleep(2000);
-                    conn = dataSource.getConnection();
+                    IncomingRequest incomingRequest = incomingRequestService.getIncomingRequestById(requestId);
 
-                    PreparedStatement stmt = conn.prepareStatement("SELECT status FROM incoming_request where id=?");
-                    stmt.setInt(1, requestId);
-                    ResultSet rs = stmt.executeQuery();
 
-                    if (rs.next()) {
-                        String status = rs.getString("status");
-
+                    String status = incomingRequest.getStatus();
                         logger.info("status:" + status);
 
-                        if ("PROCESSED".equals(rs.getString("status"))) {
+                        if ("PROCESSED".equals(status)) {
                             logger.info("sending message to the browser11..");
                             emitter.send("Backend processing is complete", MediaType.APPLICATION_JSON);
                             emitter.complete();
                         }else{
                         }
-                    }
 
-                    rs.close();
-                    stmt.close();
-                    conn.close();
 
                 }  catch (Exception e) {
                     e.printStackTrace();
@@ -203,6 +193,41 @@ public class HomeController {
 
 
         return emitter;
+    }
+
+
+    @RequestMapping("process-file")
+    public String processFile(ModelMap model, @RequestParam(required = false, value = "id") int id){
+
+        logger.info("Processing File...");
+
+        IncomingRequest incomingRequest = incomingRequestService.getIncomingRequestById(id);
+
+        Path file1 = Paths.get(incomingRequest.getFileName());
+
+        BasicFileAttributes attr = null;//Reading basic attribute/metadata of the file
+        try {
+            attr = Files.readAttributes(file1, BasicFileAttributes.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // extracting the attribute/metadata of the file
+
+        StringBuffer buffer = new StringBuffer();
+
+        buffer.append("<br/>" +"creationTime: " + attr.creationTime());
+        buffer.append("<br/>" + "lastAccessTime: " + attr.lastAccessTime());
+        buffer.append("<br/>" + "lastModifiedTime: " + attr.lastModifiedTime());
+        buffer.append("<br/>" + "isDirectory: " + attr.isDirectory());
+        buffer.append("<br/>" + "isOther: " + attr.isOther());
+        buffer.append("<br/>" + "isRegularFile: " + attr.isRegularFile());
+
+
+        logger.info("Processed file rendered successfully");
+
+        model.addAttribute("fileMetaData", buffer.toString());
+
+        return "fileDetail";
     }
 
 

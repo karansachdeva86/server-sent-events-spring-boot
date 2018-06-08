@@ -38,7 +38,7 @@ public class IncomingRequest {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id",unique = true)
     public int getId() {
         return id;
