@@ -19,6 +19,8 @@ public class IncomingRequest {
     private String fileName;
     private String status;
 
+    private String fileDetail;
+
 
     public IncomingRequest(int id) {
         this.id = id;
@@ -91,6 +93,15 @@ public class IncomingRequest {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    @Column(name="file_detail")
+    public String getFileDetail() {
+        return fileDetail;
+    }
+
+    public void setFileDetail(String fileDetail) {
+        this.fileDetail = fileDetail;
     }
 
     @Column(name="status",unique = false)

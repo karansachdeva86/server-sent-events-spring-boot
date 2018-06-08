@@ -38,20 +38,18 @@
   <section class="layout-zebra-section home-section-analyze">
     <div class="layout-zebra-section-content">
       <h1>Demo for Server Sent Events</h1>
-      <h2>Upload a file below</h2>
+      <h2>Uploaded File Details</h2>
 
       <p1 id="dynamic_text"></p1>
-<form method="POST" enctype="multipart/form-data" action="#" class="analyze-form js-form-analyze" novalidate="novalidate">
   <div class="analyze-form-inputs">
-    <div class="analyze-form-input"><div class="clearable-input">
+    <div class="analyze-form-input"><div class="clearable-input" align="left">
 
-      <c:out value="${fileMetaData}"></c:out>
+      <c:out value="${fileMetaData}" escapeXml="false"></c:out>
 
     <!--<div class="analyze-form-button"><button type="button">Submit</button></div>-->
   </div>
     </div>
   </div>
-</form>
 </div>
   </section>
 

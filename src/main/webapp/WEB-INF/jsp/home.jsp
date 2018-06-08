@@ -80,6 +80,10 @@ function waitForResponseReady(idVal){
         source.onmessage = function(event) {
            // document.getElementById("dynamic_text").innerHTML += event.data + " - ";
             $('#dynamic_text').text(event.data);
+            var requestId = (event.data).split(':')[1];
+
+            $(location).attr('href', '/show-file-details?id='+ requestId);
+
 
         };
     } else {

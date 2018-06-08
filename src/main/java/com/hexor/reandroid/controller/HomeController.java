@@ -175,7 +175,7 @@ public class HomeController {
 
                         if ("PROCESSED".equals(status)) {
                             logger.info("sending message to the browser11..");
-                            emitter.send("Backend processing is complete", MediaType.APPLICATION_JSON);
+                            emitter.send("Backend processing is complete for:" + incomingRequest.getId(), MediaType.APPLICATION_JSON);
                             emitter.complete();
                         }else{
                         }
@@ -196,36 +196,17 @@ public class HomeController {
     }
 
 
-    @RequestMapping("process-file")
+    @RequestMapping("show-file-details")
     public String processFile(ModelMap model, @RequestParam(required = false, value = "id") int id){
 
-        logger.info("Processing File...");
+        logger.info("Displaying File Details...");
 
         IncomingRequest incomingRequest = incomingRequestService.getIncomingRequestById(id);
 
-        Path file1 = Paths.get(incomingRequest.getFileName());
+        model.addAttribute("fileMetaData", incomingRequest.getFileDetail());
 
-        BasicFileAttributes attr = null;//Reading basic attribute/metadata of the file
-        try {
-            attr = Files.readAttributes(file1, BasicFileAttributes.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // extracting the attribute/metadata of the file
+        logger.info("File details rendered successfully");
 
-        StringBuffer buffer = new StringBuffer();
-
-        buffer.append("<br/>" +"creationTime: " + attr.creationTime());
-        buffer.append("<br/>" + "lastAccessTime: " + attr.lastAccessTime());
-        buffer.append("<br/>" + "lastModifiedTime: " + attr.lastModifiedTime());
-        buffer.append("<br/>" + "isDirectory: " + attr.isDirectory());
-        buffer.append("<br/>" + "isOther: " + attr.isOther());
-        buffer.append("<br/>" + "isRegularFile: " + attr.isRegularFile());
-
-
-        logger.info("Processed file rendered successfully");
-
-        model.addAttribute("fileMetaData", buffer.toString());
 
         return "fileDetail";
     }
